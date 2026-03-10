@@ -5,16 +5,26 @@
 package simplefms;
 
 import java.nio.file.*;
+import static java.nio.file.AccessMode.*;
+
+import java.io.*;
+import java.io.IOException;
 
 /**
- *
- * @author CompLab209-PC1
+ * The management system itself. This is only the backend, and interfaces with ClefFrontend for the terminal user interface.
  */
 public class ManagementSystem {
-    private FileSystem fs = FileSystems.getDefault();
+    private FileSystem fs;
     
-    public ManagementSystem() {
 
+    // Constructors
+    public ManagementSystem() {
+        fs = FileSystems.getDefault();
+    }
+
+    public ManagementSystem(String root) throws IOException {
+
+        fs = FileSystems.newFileSystem(Paths.get(root));  
     }
 
     // Helper functions.
@@ -32,6 +42,34 @@ public class ManagementSystem {
         for (int i = 0; i < p.getNameCount(); i++) {
             print("| " + p.getName(i));
         }
+    }
+
+
+    public int checkFilePermissions(String file) {
+        Path path = Paths.get(file);
+        var provider = path.getFileSystem().provider();
+        int output = 0;
+
+        // read check
+        try {
+            provider.checkAccess(path, READ);
+            output += 1;
+        } catch (IOException e) {
+        }
+
+        // write check
+        try {
+            provider.checkAccess(path, WRITE);
+        } catch (IOException e) {
+        }
+
+        // execute check
+        try {
+            provider.checkAccess(path, EXECUTE);
+        } catch (Exception e) {
+        }
+
+        return output;
     }
 
 
