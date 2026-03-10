@@ -1,5 +1,6 @@
 package simplefms;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
@@ -9,12 +10,15 @@ public class Main {
 
         ManagementSystem ms = new ManagementSystem();
 
+        // Denotes what number the user put in.
         int action = -1;
 
         Scanner s = new Scanner(System.in);
         while (true) {
+            // Clear screen.
             clear();
 
+            // Show prompt.
             prints("""
                     ============ FILE MANAGEMENT SYSTEM ==========
                     1. Create a Text File and Write Content
@@ -28,21 +32,24 @@ public class Main {
                     """);
             try {
 
+                // Ask for input
                 action = s.nextInt();
                 
             } catch (Exception e) {
+                // Input likely invalid, refreshing.
                 continue;
             }
 
-            if (action < 1) continue;
-            if (action > 7) continue;
-
             // i love reusing code
+            // Selection based on user input.
+            // Out of bounds check included.
             switch (action) {
+                // 1. Create a Text File and Write Content
                 case 1:
                     ms.doUserWrite();
                     break;
                 
+                // 2. Convert File Path to Absolute Path
                 case 2:
                     prints("Filename: ");
                     String fileToGetAbsolutePathFrom = s.nextLine();
@@ -54,6 +61,7 @@ public class Main {
                     }
                     break;
                 
+                // 3. Display File Path Information (Name Count)
                 case 3:
                     prints("Filename: ");
                     String fileToGetPathInformationFrom = s.nextLine();
@@ -65,6 +73,7 @@ public class Main {
                     }
                     break;
 
+                // 4. Check File Read and Execute Permission
                 case 4:
                     prints("Filename: ");
                     String fileToGetPermissionsFrom = s.nextLine();
@@ -76,6 +85,7 @@ public class Main {
                     }
                     break;
                 
+                // 5. Display File Attributes
                 case 5:
                     prints("Filename: ");
                     String fileToGetAttributesFrom = s.nextLine();
@@ -87,20 +97,24 @@ public class Main {
                     }
                     break;
                 
+                // 6. Read a Text File
                 case 6:
                     ms.doUserRead();
                     break;
-
+                
+                // 7. Exit
                 case 7:
                     ms.exit();
 
+                // If selection is not within range, refresh.
                 default:
                     continue;
             }
 
-
+            // Break check.
             if (!ms.isActive()) break;
 
+            // Prompt user to press enter to continue.
             print("\nPress enter to continue");
             @SuppressWarnings("unused")
             String thisIsHereSoThatTheUserHasToPressEnterToRefreshTheThing = s.nextLine();

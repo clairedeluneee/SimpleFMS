@@ -47,7 +47,6 @@ public class ManagementSystem {
         }
     }
 
-
     public int checkFilePermissions(String file) {
         Path path = Paths.get(file);
         var provider = path.getFileSystem().provider();
