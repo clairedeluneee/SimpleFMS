@@ -58,21 +58,21 @@ public class ManagementSystem {
         // read check
         try {
             provider.checkAccess(path, READ);
-            output += 1; // 001
+            if (Files.isReadable(path))output += 1; // 001
         } catch (IOException e) {
         }
 
         // write check
         try {
             provider.checkAccess(path, WRITE);
-            output += 2; // 010
+            if (Files.isWritable(path)) output += 2; // 010
         } catch (IOException e) {
         }
 
         // execute check
         try {
             provider.checkAccess(path, EXECUTE);
-            output += 4; // 100
+            if (Files.isExecutable(path))output += 4; // 100
         } catch (IOException e) {
         }
 

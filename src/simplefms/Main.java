@@ -73,7 +73,7 @@ public class Main {
                     String fileToGetPathInformationFrom = safeInput();
 
                     try {
-                        ms.displayFileAttributes(Paths.get(fileToGetPathInformationFrom));
+                        ms.printFilePathInformation(Paths.get(fileToGetPathInformationFrom));
                     } catch (Exception e) {
                         print("file not found");
                     }
@@ -122,7 +122,7 @@ public class Main {
             // Prompt user to press enter to continue.
             print("\nPress enter to continue");
             @SuppressWarnings("unused")
-            String thisIsHereSoThatTheUserHasToPressEnterToRefreshTheThing = s.nextLine();
+            String thisIsHereSoThatTheUserHasToPressEnterToRefreshTheThing = s.next();
         }
 
         s.close();
