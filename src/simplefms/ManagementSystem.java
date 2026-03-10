@@ -15,6 +15,7 @@ import java.util.Scanner;
  */
 public class ManagementSystem {
     private FileSystem fs;
+    private Scanner s = new Scanner(System.in);
 
     private boolean loopActive = true;
     public boolean isActive() { return this.loopActive;}
@@ -22,12 +23,14 @@ public class ManagementSystem {
 
     // Constructors
     public ManagementSystem() {
-        fs = FileSystems.getDefault();
+        this.fs = FileSystems.getDefault();
+        s.useDelimiter(System.lineSeparator());
     }
 
     public ManagementSystem(String root) throws IOException {
 
-        fs = FileSystems.newFileSystem(Paths.get(root));  
+        this.fs = FileSystems.newFileSystem(Paths.get(root));  
+        s.useDelimiter(System.lineSeparator());
     }
 
     // Helper functions.
@@ -93,6 +96,7 @@ public class ManagementSystem {
     }
 
     public void displayFileAttributes(Path filepath) {
+        
         print("File attributes for " + filepath.toString());
 
         try {
@@ -107,10 +111,9 @@ public class ManagementSystem {
     }
 
     public void doUserWrite() {
-        Scanner s = new Scanner(System.in);
         try {
             prints("Enter filename: ");
-            String outputFilename = s.nextLine();
+            String outputFilename = this.s.next();
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputFilename));
 
@@ -122,10 +125,9 @@ public class ManagementSystem {
     }
 
     public void doUserRead() {
-        Scanner s = new Scanner(System.in);
         try {
             prints("Enter filename: ");
-            String inputFilename = s.nextLine();
+            String inputFilename = this.s.next();
 
             BufferedReader br = new BufferedReader(new FileReader(inputFilename));
 

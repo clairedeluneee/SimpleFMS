@@ -5,16 +5,22 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {
+    public static Scanner s = new Scanner(System.in);
     public static void main(String[] args) {
         System.out.println("meow");
+
+        s.useDelimiter(System.lineSeparator());
 
         ManagementSystem ms = new ManagementSystem();
 
         // Denotes what number the user put in.
         int action = -1;
 
-        Scanner s = new Scanner(System.in);
+
         while (true) {
+            // Break check.
+            if (!ms.isActive()) break;
+
             // Clear screen.
             clear();
 
@@ -52,7 +58,7 @@ public class Main {
                 // 2. Convert File Path to Absolute Path
                 case 2:
                     prints("Filename: ");
-                    String fileToGetAbsolutePathFrom = s.nextLine();
+                    String fileToGetAbsolutePathFrom = safeInput();
 
                     try {
                         print(ms.getAbsolutePathFromRelativeFile(fileToGetAbsolutePathFrom));
@@ -64,7 +70,7 @@ public class Main {
                 // 3. Display File Path Information (Name Count)
                 case 3:
                     prints("Filename: ");
-                    String fileToGetPathInformationFrom = s.nextLine();
+                    String fileToGetPathInformationFrom = safeInput();
 
                     try {
                         ms.displayFileAttributes(Paths.get(fileToGetPathInformationFrom));
@@ -76,7 +82,7 @@ public class Main {
                 // 4. Check File Read and Execute Permission
                 case 4:
                     prints("Filename: ");
-                    String fileToGetPermissionsFrom = s.nextLine();
+                    String fileToGetPermissionsFrom = safeInput();
 
                     try {
                         ms.displayFilePermissions(fileToGetPermissionsFrom);
@@ -88,7 +94,7 @@ public class Main {
                 // 5. Display File Attributes
                 case 5:
                     prints("Filename: ");
-                    String fileToGetAttributesFrom = s.nextLine();
+                    String fileToGetAttributesFrom = safeInput();
 
                     try {
                         ms.displayFileAttributes(Paths.get(fileToGetAttributesFrom));
@@ -111,14 +117,15 @@ public class Main {
                     continue;
             }
 
-            // Break check.
-            if (!ms.isActive()) break;
+            
 
             // Prompt user to press enter to continue.
             print("\nPress enter to continue");
             @SuppressWarnings("unused")
             String thisIsHereSoThatTheUserHasToPressEnterToRefreshTheThing = s.nextLine();
         }
+
+        s.close();
     } 
 
     public static void clear() {
@@ -130,5 +137,22 @@ public class Main {
     }
     private static void prints(String message) {
         System.out.print(message + "");
+    }
+    /**
+     * Asks the user for input. Catches invalid inputs and returns an empty string if it happens.
+     * @return
+     */
+    public static String safeInput() {
+
+        String output = "";
+
+        try {
+            // Get the next line
+            output = s.next();
+        
+        } catch (Exception e) {
+        }
+
+        return output;
     }
 }
